@@ -1,6 +1,6 @@
 
-var comp = function (db, Unit) {
-	this.db = db;
+var comp = function (sequelize, Unit) {
+	this.sequelize = sequelize;
 	this.Unit = Unit;
 };
 

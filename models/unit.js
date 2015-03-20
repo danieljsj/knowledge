@@ -1,24 +1,25 @@
-var Unit = function(data) {
-	this.data = data;
-};
+var Unit = sequelize.define('unit', {
+	x: {
+		type: Sequelize.INTEGER,
+		field: 'x'
+	},
+	y: {
+		type: Sequelize.INTEGER,
+		field: 'y'
+	}
+}, {
+	freezeTableName: true
+});
 
-Unit.prototype.data = {};
+Unit.sync({force: true}).then(function(){});
 
-Unit.prototype.someFunc = function () {
-	//...
-}
 
-Unit.findById = function (db, id, callback) {
-	
-	db.get('units'), {'id':id}).run(function (err, data) {
-	
-		if (err) return callback(err);
-	
-		callback(null, new Unit(data));
-	
-	});
-};
+// user create, get, etc. will be provided by sequelize
 
-Unit.deleteAll = function () {
-	//...
-}
+
+// Unit.prototype.someFunc = function () {
+// 	//...
+// }
+
+
+module.exports = Unit;
