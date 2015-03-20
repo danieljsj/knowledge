@@ -1,0 +1,14 @@
+Server Only:
+- move all units in database
+- record history and knowles
+
+Client <=> Server:
+- receive instruction from client/browser
+- send data to client/browser
+
+Requirements:
+- Same functions available in computation as in client (e.g. node is good fit)
+--- b/c we may want browsers to be able to run scenario data like AI when possible.
+-- QN: one app, or multiple? A: one app. use
+
+
