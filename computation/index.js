@@ -17,4 +17,4 @@ var computations = new Computations(sequelize, Unit);
 
 computations.gameSetup();
 
-setInterval(computations.gameTick, 1000);
+setInterval(function() {computations.gameTick(Unit)}, 1000);
