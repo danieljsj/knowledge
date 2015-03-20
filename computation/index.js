@@ -1,6 +1,9 @@
 var _ = require("lodash");
 var mysql = require("mysql");
 var Sequelize = require("sequelize");
+var Computations = require("./computations");
+var UnitModel = require("../models/unit");
+
 
 var sequelize = new Sequelize('knowledge','knowledge','284ssj0932', {
   host: 'localhost',
@@ -8,12 +11,10 @@ var sequelize = new Sequelize('knowledge','knowledge','284ssj0932', {
   pool: { max: 5, min: 0, idle: 10000 },
 });
 
+var Unit = new UnitModel(Sequelize, sequelize);
 
-var calculation = function(){
-  date = new Date();
-  time = date.getTime();
-  console.log('yup '+time);
-}
+var computations = new Computations(sequelize, Unit);
 
-setInterval(calculation, 1000);
+computations.gameSetup();
 
+setInterval(computations.gameTick, 1000);

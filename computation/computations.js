@@ -1,21 +1,30 @@
+module.exports = function (sequelize, Unit) {
 
-var comp = function (sequelize, Unit) {
-	this.sequelize = sequelize;
-	this.Unit = Unit;
-};
+	var computations = {};
 
-comp.gameSetup = function (setupConfigs) {
-	this.setupConfigs = setupConfigs;
+	computations.gameSetup = function (setupConfigs) {
 
-	Unit = this.Unit;
+		this.setupConfigs = setupConfigs;
 
-	Unit.deleteAll();
+		Unit.destroy({truncate:true});
+		
+	}
 
-	for (var i = setupConfigs['num_units'] - 1; i >= 0; i--) {
-		units = [];
+	computations.gameTick = function () {
 
-		atts = [];
-		units.push(Unit.create(atts));
-	};
-	
+		var values = {
+			x: Math.floor(30*(1/2-Math.random())),
+			y: Math.floor(20*(1/2-Math.random()))
+		};
+		Unit.create(values); // wait a minute... why is Unit defined here? I didn't inject it into this func... Is it because I pulled it in as a param of the "construction" func?
+
+		Unit.findAndCountAll().success(function (result) {
+			console.log("# of units: " + result.count);
+		})
+
+		// units = Unit.findAll();
+	}
+
+	return computations;
+
 }
