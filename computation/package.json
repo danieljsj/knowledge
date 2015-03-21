@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mysql":"*",
-    "sequelize":"*",
-    "lodash":"*"
+    "lodash": "*",
+    "mongodb": "~1.4.35"
   },
   "author": "",
   "license": "BSD-2-Clause"
