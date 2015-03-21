@@ -1,3 +1,5 @@
+=== ROLES FOR DIFFERENT PROCESSES ===
+
 Server Only:
 - move all units in database
 - record history and knowles
@@ -12,119 +14,9 @@ Requirements:
 -- QN: one app, or multiple? A: one app. use
 
 
-Instead of history, we have notions and beliefs.
 
 
-
-
-DATA ARCHITECTURE FOR MEMORIES
-
-OPTION 1:
-
-at stardate 1, unit 7 is at 5,4 (but we don't record this. if a tree falls in the woods, and nobody hears it, it's gone)
-
-notions 1: { type: unit_position, content: { unit: 7, x: 5, y: 4 } } // better for MongoDB
-
-purported_unit_attacks:
-purported_unit_positions:
-beliefs 1: unit 7 believes notion 1
-
-known_statuses
-known_interactions
-knowledge_of_interactions
-knowledge_of_statuses
-
-observations_of_interactions
-observations_of_statuses
-
-observations {id:1}
-observation_details_for_statuses {id:1, unit_id:1,}
-observation_details_for_events {id:1, event_type: (destruction|attack|}
-observation_details_for_interactions { id:1, from_x:10, from_y10, to_x: from_unit_id: 1, to_unit_id:2, type="attack" attack_type="melee" attack_damage="2"}
-knowledge_of_observations: { id:1, unit_id: 1, observation_id: 1, parent_koo_id: 1 }
-
-
-status_observations
-inte
-
-(cleanup: (separate process) any notions that are believed by no one are lost.)
-
-OPTION 2: Assume that lying is too complicated; save lying for the sequel :-) istead, use facts and knowledge.
-
-fact 1: unit 7 was at 5,4
-knowledge 1: unit 7 knows fact 1
-
-
-KISS version:
-
-facts_of_position
-
-knowledge_of_facts_of_position
-
-
-
-
-
-FINAL ANSWER: (I"M ABOUT TO DELETE EVERYTHING ELSE)
-
-
-i'm a unit. everything I see, i record. my memory is a huge chunk of mongodb
-
-
-I record my memories in segments, between when I tell poeple.
-
-
-Unit A:
-Observation Memory segment 1 stores everything I learn before I tell anyone anything. - NO, because I need to be able to tell just parts of it.
-
-OR - make an assumption that telling people things takes relatively little time, so units can do it instantly.
-
-Terrain memory (not needed initially)
-
-I record my memories on a per-day basis.
-
-I tell my memories to 
-
-Unit B:
-- Unit A tells me things. In my learned memory, I get a pointer to 
-Memory segment 2
-
-
-
-
-
-
-
-
-
-
-
-Each unit records positions of all other units it sees.
-
-When new knowledge gets back to the 
-
-When two units check knowledge with one another, they compress their knowledge... i.e. a unit says, I know everything that so-and-so knows, plus this little bit.
-
-wait... no, they combine their knowledge.
-
-there are knowledge-pools; when any two units combine, they form a new, shared knowledge pool, and abandon their old one (leaving it intact, however, as another unit may still be referencing it as their base of knowledge.)
-
-
-
-NOTE: more detail can be seen by actually being present than can be recorded! Knowledge is simpler than observation.
-
-
-
-the point of a knowledge pool is to prevent the need for storing too much redundant data; if we both know the same "fact" (unit 1 was at 2,3 at click 30), our shared knowledge can be a literal that only records that once.
-
-my knowledge is equal to my most recent knowledge pool plus any other observations.
-
-one way to discourage units from creating too many distinct "knowledge pools" is by making it costly for them to talk to one another. (since a new pool is created each time they talk) ... wait, is this really helping? with pools, we're now writing each observation many times...
-
-I think that's worse than the duplicaiton caused by keeping concurrent observations -- ESPECIALLY if we make units expensive, powerful, and scarce... incentivizing there being few units.
-
-so - back to this:
-
+=== KNOWLEDGE DATA ARCHITECTURE ===
 
 
 there are knowledge segments: each is: a set of observations made by a unit between communications.
@@ -160,10 +52,7 @@ compiling your story is pretty easy - loop over all your knowledge segments, and
 
 
 
-
-
-
-DATA ARCHITECTURE FOR TERRAIN KNOWLEDGE:
+=== DATA ARCHITECTURE FOR TERRAIN KNOWLEDGE ===
 
 each unit in DB has a simple map of every square of the map of which it is aware. (terrain can't change.)
 
@@ -187,6 +76,10 @@ map: { // represents mostly terrain type 1, with a horizontal strip of terray-ty
 
 
 
+
+
+
+=== REPLAY RENDERING PROCESS ===
 
 
 during "replay-rendering":
