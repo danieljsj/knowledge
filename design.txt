@@ -196,3 +196,4 @@ it also modifies those values for adjacent stories:
 - maybeAppearedHere is set to false if the adjacent story was after the newly placed story
 
 
+(note, need to do either some funny "orm" hacks or some odm hacks (http://stackoverflow.com/questions/11160955/how-to-exclude-some-fields-from-the-document) so that when I save the unit, I'm not saving all its memories to the database, but rather, just the memory ids that it knows.)
