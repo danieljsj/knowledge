@@ -25,9 +25,9 @@ module.exports = function (db, Unit) {
 		Unit.collection.insert(docs,{},function(err,units){
 			if (err) throw err;
 			else {
-				console.log(units);
+				// console.log(units); // working.
 			};
-		}); // wait a minute... why is Unit defined here? I didn't inject it into this func... Is it because I pulled it in as a param of the "construction"/".exports" func?
+		});
 		
 	}
 
@@ -35,18 +35,20 @@ module.exports = function (db, Unit) {
 		// console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//
 
 		console.log(stardate++);
-		
+		console.log(db);
+		db.units.find(function(units){console.log(units)});
+
 		Unit.find({},function (err, units) {
 			if (err) throw err;
 			// console.log(units); why not working?
 
 			for (var i = units.length - 1; i >= 0; i--) {
 				// console.log(units[i]); // won't work - not totally sure why 
-				units[i].move().save(function(err){
+				units[i].move().save(function(err, unit){
 				    if(err)
 				        console.log(err);
 				    else
-				        console.log(todo);
+				        console.log(unit);
 				}); // this is happening, but the console must be not firing cuz of somethign async... cuz when I don't assign the method, this yells at me
 			};
 		});
