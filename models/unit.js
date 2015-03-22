@@ -1,27 +1,44 @@
-module.exports = function (Sequelize, sequelize) {
+/// Deps
 
-	var Unit = sequelize.define('unit', {
-		x: {
-			type: Sequelize.INTEGER, // tutorials have this as the class, e.g. if the a static global was available... but we don't have that so I'm using the instance.... hope it has it!
-			field: 'x'
-		},
-		y: {
-			type: Sequelize.INTEGER,
-			field: 'y'
-		}
-	}, {
-		freezeTableName: true
-	});
-
-	Unit.sync(/*{force: true}*/).then(function(){});
+var mongoose = require("mongoose");
+var _ = require("lodash");
 
 
-	// user create, get, etc. will be provided by sequelize
+/// Model Attributes
 
+var modelName = "Unit";
 
-	// Unit.prototype.someFunc = function () {
-	// 	//...
-	// }
+var properties = {
+		name: {type: String, default: "Jo' Doe"},
+		x: Number,
+		y: Number
+};
 
-	return Unit;
-}
+var methods = {
+	init: function() {
+		if (! this.x) this.x = _.random(-30,30);
+		if (! this.y) this.y = _.random(-20,20);
+		return this;
+	},
+	move: function() { 
+		this.x += _.random(-1,1);
+		this.y += _.random(-1,1);
+		return this;
+	},
+	shareKnowledge: function(recipient) {
+		//
+		return this;
+	},
+	sayName: function() {
+		console.log(this.name);
+		return this;
+	}
+};
+
+/// Creating the Model
+
+schema = mongoose.Schema(properties);
+for ( var attName in methods ) { schema.methods[attName] = methods[attName];}
+model = mongoose.model(modelName, schema);
+
+module.exports = model;
