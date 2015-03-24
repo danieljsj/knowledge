@@ -1,68 +1,56 @@
-var _ = require("lodash");
-var Chance = require("chance"); var chance = new Chance();
-
 module.exports = function (db, Unit) {
 	
-
 	var computations = {};
-
-	var stardate = 0;
 
 	computations.gameSetup = function () { 
 
-		var callback = function(){console.log("all units removed");};
-		Unit.remove({},callback);
-		// Unit.collection.find()
-		var numUnits = 10;
-		var docs = [];
-		for (var i = numUnits - 1; i >= 0; i--) {
-			docs.push({
-				name: chance.first()+" "+chance.last(),
-				x: _.random(-30,30),
-				y: _.random(-30,30),
-			});
-		};
-		Unit.collection.insert(docs,{},function(err,units){
+		Unit.remove({},function(err){
 			if (err) throw err;
 			else {
-				// console.log(units); // working.
-			};
+				console.log("all units removed; inserting new units...");
+				Unit.collection.insert([{name:"Joe",x:Math.random(),y:Math.random()},{name:"Jane",x:Math.random(),y:Math.random()}],{},function(err,units){
+					if (err) throw err;
+					else {
+						// console.log(units); // working.
+						console.log("units inserted; finding all units...");
+												
+						Unit.findOne().exec(function(err, unit){
+							if (err) throw err;
+							else {
+								console.log("unit found;");
+								console.log(unit);
+								unit.fakeMethod();
+							}
+						});
+						Unit.findOne().exec(function(err, unit){
+							if (err) throw err;
+							else {
+								console.log("unit found;");
+								console.log(unit);
+								unit.fakeMethod();
+							}
+						});
+					};
+				});
+			}
 		});
-		
-	}
+	};
 
 	computations.gameTick = function () {
-		// console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");//
 
-		console.log(stardate++);
-		console.log(db);
-		db.units.find(function(units){console.log(units)});
 
-		Unit.find({},function (err, units) {
-			if (err) throw err;
-			// console.log(units); why not working?
-
-			for (var i = units.length - 1; i >= 0; i--) {
-				// console.log(units[i]); // won't work - not totally sure why 
-				units[i].move().save(function(err, unit){
-				    if(err)
-				        console.log(err);
-				    else
-				        console.log(unit);
-				}); // this is happening, but the console must be not firing cuz of somethign async... cuz when I don't assign the method, this yells at me
-			};
-		});
-
+		// Unit.find({},function (err, units) {
+		// 	if (err) throw err;
+		// 	// console.log(units); why not working?
 
 		// 	for (var i = units.length - 1; i >= 0; i--) {
-				
-		// 		unit = units[i];
-
-		// 		unit.x += Math.round(-1+2*Math.random());
-		// 		unit.y += Math.round(-1+2*Math.random());
-				
-		// 		// unit.save();
-				
+		// 		// console.log(units[i]); // won't work - not totally sure why 
+		// 		units[i].move().save(function(err, unit){
+		// 		    if(err)
+		// 		        console.log(err);
+		// 		    else
+		// 		        console.log(unit);
+		// 		}); // this is happening, but the console must be not firing cuz of somethign async... cuz when I don't assign the method, this yells at me
 		// 	};
 		// });
 
